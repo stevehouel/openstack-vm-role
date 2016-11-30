@@ -1,4 +1,4 @@
-# OpenStack VM Creation playbook #
+# OpenStack VM Creation role #
 
 
 ## Requirements

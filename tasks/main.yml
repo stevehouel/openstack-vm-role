@@ -1,0 +1,74 @@
+---
+# Task file : OpenStack VM creation
+
+
+# Creating OpenStack server
+
+- name: Creating VM in OpenStack
+  os_server:
+    validate_certs: False
+    api_timeout: 300
+    timeout: 600
+    state: "{{ vm_state }}"
+    auth:
+      auth_url: "{{ cloudstack_auth_url }}"
+      username: "{{ cloudstack_login }}"
+      password: "{{ cloudstack_password }}"
+      project_name: "{{ cloudstask_project }}"
+    auth_type: v2password
+    auto_ip: no
+    availability_zone: DATACENTER1
+    flavor: "{{ vm_flavor }}"
+    image: "{{ vm_image }}"
+    meta:
+      description: "{{ vm_description }}"
+    name: "{{ vm_hostname }}"
+    network: "{{ vm_network }}"
+    userdata: "{{ lookup('file', '{{ inventory_dir }}/user_data_vm/user_data.sh') }}"
+  register: my_server
+
+- debug:
+        var: myserver.server.private_v4
+
+
+# Waiting for server to boot
+
+- name: Waiting for VM to boot
+  sudo: no
+  when: my_server|changed
+# Identify the VM via its internal IP address rather than its name,
+# to work around the problem with Rhône's DNS server "obsolete" answers
+#
+# We use the "my_server" json to retrieve the IP address:
+# "my_server": {
+#    "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+#     "server": {
+#         "networks": {
+#             "my-project-run": [
+#                 "10.0.0.1"
+#             ]
+#         }
+#     }
+# }
+  local_action: wait_for host="{{ my_server.server.networks[vm_network][0] }}" port=22 timeout=300 search_regex=OpenSSH delay=5 
+
+
+# If requested, assign a public IP to the server
+
+- name: Possibly assign a public IP to the VM
+  os_floating_ip:
+    validate_certs: False
+    api_timeout: 300
+    state: present
+    auth:
+      auth_url: "{{ cloudstack_auth_url }}"
+      username: "{{ cloudstack_login }}"
+      password: "{{ cloudstack_password }}"
+      project_name: "{{ cloudstask_project }}"
+    auth_type: v2password
+    availability_zone: DATACENTER1
+    network: net-pub # Rhône's window to the Internet
+    server: "{{ my_server.id }}"
+    fixed_address: "{{ my_server.server.networks[vm_network][0] }}"
+# Do not assign a public IP if one already exists
+  when: (vm_auto_ip == true and my_server.server.accessIPv4 == "")

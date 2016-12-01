@@ -11,7 +11,9 @@
     state: "{{ vm_state }}"
     auth:
       auth_url: "{{ cloudstack_auth_url }}"
-    auth_type: v2password
+      username: "{{ cloudstack_login }}"
+      password: "{{ cloudstack_password }}"
+      project_name: "{{ cloudstask_project }}"
     auto_ip: no
     key_name: "{{ vm_key }}"
     region_name: "{{ vm_region_name }}"

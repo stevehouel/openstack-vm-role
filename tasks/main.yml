@@ -23,6 +23,7 @@
     meta:
       description: "{{ vm_description }}"
     name: "{{ vm_hostname }}"
+    security_groups: {{ vm_security_group }}
     network: "{{ vm_network }}"
     userdata: "{{ lookup('file', '{{ inventory_dir }}/user_data_vm/user_data.sh') }}"
   register: my_server

@@ -1,12 +1,6 @@
 ---
 # Task file : OpenStack VM creation
 
-- name: Display Cloud information
-  os_auth:
-    auth_url: "{{ cloudstack_auth_url }}"
-
-- debug: var=service_catalog
-
 # Creating OpenStack server
 
 - name: Creating VM in OpenStack

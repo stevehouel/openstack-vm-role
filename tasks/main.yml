@@ -6,8 +6,7 @@
     auth_url: "{{ cloudstack_auth_url }}"
   register: catalog
 
-- debug:
-    var:catalog
+- debug: var:catalog
 
 # Creating OpenStack server
 

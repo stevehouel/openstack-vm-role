@@ -11,12 +11,10 @@
     state: "{{ vm_state }}"
     auth:
       auth_url: "{{ cloudstack_auth_url }}"
-      username: "{{ cloudstack_login }}"
-      password: "{{ cloudstack_password }}"
-      project_name: "{{ cloudstask_project }}"
     auth_type: v2password
     auto_ip: no
-    availability_zone: DATACENTER1
+    key_name: "{{ vm_key }}"
+    availability_zone: "{{ vm_availability_zone }}"
     flavor: "{{ vm_flavor }}"
     image: "{{ vm_image }}"
     meta:

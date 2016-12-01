@@ -15,7 +15,7 @@
       password: "{{ cloudstack_password }}"
       project_name: "{{ cloudstask_project }}"
     auth_type: v2password
-    auto_ip: {{vm_auto_ip}}
+    auto_ip: "{{ vm_auto_ip }}"
     region_name: "{{ vm_region_name }}"
     availability_zone: "{{ vm_availability_zone }}"
     flavor: "{{ vm_flavor }}"

@@ -4,9 +4,10 @@
 - name: Display Cloud information
   os_auth:
     auth_url: "{{ cloudstack_auth_url }}"
-    register: catalog
+  register: catalog
 
-- debug: var=catalog
+- debug:
+    var:catalog
 
 # Creating OpenStack server
 
@@ -21,6 +22,7 @@
     auth_type: v2password
     auto_ip: no
     key_name: "{{ vm_key }}"
+    region_name: "{{ vm_region_name }}"
     availability_zone: "{{ vm_availability_zone }}"
     flavor: "{{ vm_flavor }}"
     image: "{{ vm_image }}"

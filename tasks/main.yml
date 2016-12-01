@@ -4,9 +4,8 @@
 - name: Display Cloud information
   os_auth:
     auth_url: "{{ cloudstack_auth_url }}"
-  register: catalog
 
-- debug: var:catalog
+- debug: var=service_catalog
 
 # Creating OpenStack server
 

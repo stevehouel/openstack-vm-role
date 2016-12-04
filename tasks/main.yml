@@ -33,9 +33,6 @@
 - debug:
         var: my_server.server.accessIPv4
 
-- debug:
-        var: hostvars[item]
-
 # Waiting for server to boot
 
 - name: Waiting for VM to boot
@@ -49,5 +46,5 @@
   local_action: wait_for host="{{ my_server.server.networks[0][0] }}" port=22 timeout=300 search_regex=OpenSSH delay=5
 
 - name: "Update hosts file"
-  lineinfile: dest=/etc/hosts line="{{ hostvars[item].ansible_default_ipv4.address }} {{ inventory_name }}" state=present
-  when: hostvars[item].ansible_default_ipv4.address is defined
+  when: my_server|changed
+  lineinfile: dest=/etc/hosts line="{{ my_server.server.networks[0][0] }} {{ inventory_name }}" state=present

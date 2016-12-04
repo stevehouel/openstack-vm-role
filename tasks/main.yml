@@ -33,6 +33,9 @@
 - debug:
         var: my_server.server.accessIPv4
 
+- debug:
+        var: hostvars[item]
+
 # Waiting for server to boot
 
 - name: Waiting for VM to boot

@@ -32,15 +32,7 @@
 
 - debug:
         var: my_server.server.accessIPv4
-
-- name: Update hosts file with public access
-  when: my_server|changed and vm_public_access
-  lineinfile: dest="{{ host_file }}" line="{{ my_server.server.public_v4 }} {{ inventory_hostname }}" state=present
-
-- name: Update hosts file with private access
-  when: my_server|changed and vm_public_access == false
-  lineinfile: dest="{{ host_file }}" line="{{ my_server.server.private_v4 }} {{ inventory_hostname }}" state=present
-
+        
 # Waiting for server to boot
 - name: Waiting for VM to boot using public access
   sudo: no

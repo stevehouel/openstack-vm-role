@@ -13,7 +13,7 @@
       auth_url: "{{ cloudstack_auth_url }}"
       username: "{{ cloudstack_login }}"
       password: "{{ cloudstack_password }}"
-      project_name: "{{ cloudstask_project }}"
+      project_name: "{{ cloudstack_project }}"
     auth_type: v2password
     auto_ip: false
     region_name: "{{ vm_region_name }}"
